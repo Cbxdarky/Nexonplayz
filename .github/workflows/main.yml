@@ -1,3 +1,5 @@
+name: Windows Builder
+
 on:
   workflow_dispatch:
 
@@ -10,12 +12,21 @@ jobs:
     steps:
       - name: Downloading & Installing Essentials
         run: |
-          Invoke-WebRequest -Uri "https://gitlab.com/chamod12/le-win-
-          16.github.drp/-/raw/main/Downloads.bat" -OutFile "Downloads.bat"
-          cmd /C Downloads.bat
+          Invoke-WebRequest -Uri "https://gitlab.com/chamod12/le-win-16.github.drp/-/raw/main/Downloads.bat" -OutFile "Downloads.bat"
+          cmd /c Downloads.bat
 
       - name: Connect to LiteManager
-        run: cmd /c show.bat
+        run: |
+          if (Test-Path "show.bat") {
+            cmd /c show.bat
+          } else {
+            Write-Host "show.bat not found."
+          }
 
       - name: Time Counter
-        run: cmd /c loop.bat
+        run: |
+          if (Test-Path "loop.bat") {
+            cmd /c loop.bat
+          } else {
+            Write-Host "loop.bat not found."
+          }
